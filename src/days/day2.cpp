@@ -6,7 +6,6 @@
 Day2::Day2(std::string filename)
 {
     readInput(filename);
-    parseInput();
 }
 
 void Day2::parseInput()
@@ -38,6 +37,7 @@ void Day2::parseInput()
 
 void Day2::solveDay()
 {
+    parseInput();
     std::cout << "Day 2 Part 1: " << solvePartOne() << std::endl;
     std::cout << "Day 2 Part 2: " << solvePartTwo() << std::endl;
 }

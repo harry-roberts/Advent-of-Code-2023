@@ -1,0 +1,3 @@
+inputs should be put here in the format "input_dayN.txt"
+
+personal inputs can be obtained from https://adventofcode.com/

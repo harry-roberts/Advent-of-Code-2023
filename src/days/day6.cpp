@@ -12,8 +12,8 @@ Day6::Day6(std::string filename)
 void Day6::solveDay()
 {
     parseInput();
-    std::cout << "Day 4 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 4 Part 2: " << solvePartTwo() << std::endl;
+    std::cout << "Day 6 Part 1: " << solvePartOne() << std::endl;
+    std::cout << "Day 6 Part 2: " << solvePartTwo() << std::endl;
 }
 
 void Day6::parseInput()

@@ -102,9 +102,9 @@ struct Hand
 class Day7 : public DayBase
 {
 public:
-    Day7(std::string filename);
+    Day7(std::string filename, bool print = true);
 
-    void solveDay();
+    void solveDay(bool print = true);
     
 private:
     int solvePartOne();

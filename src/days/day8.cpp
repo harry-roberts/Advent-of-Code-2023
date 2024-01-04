@@ -2,16 +2,24 @@
 
 #include <numeric>
 
-Day8::Day8(std::string filename)
+Day8::Day8(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
-void Day8::solveDay()
+void Day8::solveDay(bool print)
 {
     parseInput();
-    std::cout << "Day 8 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 8 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 8 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 8 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 void Day8::parseInput()

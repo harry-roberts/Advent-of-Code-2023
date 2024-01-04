@@ -10,9 +10,9 @@ using Coordinate = std::pair<int, int>;
 class Day3 : public DayBase
 {
 public:
-    Day3(std::string filename);
+    Day3(std::string filename, bool print = true);
 
-    void solveDay();
+    void solveDay(bool print = true);
     
 private:
     void parseInput();

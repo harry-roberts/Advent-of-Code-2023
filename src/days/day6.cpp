@@ -4,16 +4,24 @@
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 
-Day6::Day6(std::string filename)
+Day6::Day6(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
-void Day6::solveDay()
+void Day6::solveDay(bool print)
 {
     parseInput();
-    std::cout << "Day 6 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 6 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 6 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 6 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 void Day6::parseInput()

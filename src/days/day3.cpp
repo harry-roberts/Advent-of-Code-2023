@@ -1,15 +1,23 @@
 #include "day3.h"
 
-Day3::Day3(std::string filename)
+Day3::Day3(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
-void Day3::solveDay()
+void Day3::solveDay(bool print)
 {
     parseInput();
-    std::cout << "Day 3 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 3 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 3 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 3 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 // parse input into:

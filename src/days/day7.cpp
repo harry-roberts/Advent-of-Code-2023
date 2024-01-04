@@ -2,15 +2,23 @@
 
 #include <boost/algorithm/string.hpp>
 
-Day7::Day7(std::string filename)
+Day7::Day7(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
-void Day7::solveDay()
+void Day7::solveDay(bool print)
 {
-    std::cout << "Day 7 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 7 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 7 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 7 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 // maps a card to a relative ranking, bigger number beats smaller number

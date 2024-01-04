@@ -3,9 +3,9 @@
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
 
-Day2::Day2(std::string filename)
+Day2::Day2(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
 void Day2::parseInput()
@@ -35,11 +35,19 @@ void Day2::parseInput()
     }
 }
 
-void Day2::solveDay()
+void Day2::solveDay(bool print)
 {
     parseInput();
-    std::cout << "Day 2 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 2 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 2 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 2 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 int Day2::solvePartOne()

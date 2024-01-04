@@ -9,11 +9,11 @@ class DayBase
 {
 public:
 
-    virtual void solveDay() = 0;
+    virtual void solveDay(bool print = true) = 0;
     virtual ~DayBase() = default;
 
 protected:
-    virtual void readInput(std::string filename);
+    virtual void readInput(std::string filename, bool print = true);
 
     std::vector<std::string> m_inputLines;
 };

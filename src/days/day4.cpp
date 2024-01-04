@@ -6,9 +6,9 @@
 
 #include <unordered_set>
 
-Day4::Day4(std::string filename)
+Day4::Day4(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
 int Day4::parseLine(std::string_view line)
@@ -36,10 +36,18 @@ int Day4::parseLine(std::string_view line)
     return matches;
 }
 
-void Day4::solveDay()
+void Day4::solveDay(bool print)
 {
-    std::cout << "Day 4 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 4 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 4 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 4 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 int Day4::solvePartOne()

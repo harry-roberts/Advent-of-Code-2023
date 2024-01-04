@@ -6,9 +6,9 @@
 class Day1 : public DayBase
 {
 public:
-    Day1(std::string filename);
+    Day1(std::string filename, bool print = true);
 
-    void solveDay();
+    void solveDay(bool print = true);
     
 private:
     int solve(bool includeWords = false);

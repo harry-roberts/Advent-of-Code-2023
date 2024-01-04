@@ -8,9 +8,9 @@
 class Day6 : public DayBase
 {
 public:
-    Day6(std::string filename);
+    Day6(std::string filename, bool print = true);
 
-    void solveDay();
+    void solveDay(bool print = true);
     
 private:
     uint64_t solvePartOne();

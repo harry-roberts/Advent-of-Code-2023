@@ -1,14 +1,22 @@
 #include "day1.h"
 
-Day1::Day1(std::string filename)
+Day1::Day1(std::string filename, bool print)
 {
-    readInput(filename);
+    readInput(filename, print);
 }
 
-void Day1::solveDay()
+void Day1::solveDay(bool print)
 {
-    std::cout << "Day 1 Part 1: " << solvePartOne() << std::endl;
-    std::cout << "Day 1 Part 2: " << solvePartTwo() << std::endl;
+    if (print)
+    {
+        std::cout << "Day 1 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 1 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
 }
 
 int Day1::solvePartOne()

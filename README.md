@@ -12,17 +12,18 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 16384 KiB (x1)
-Load Average: 0.33, 0.30, 0.24
+Load Average: 0.41, 0.18, 0.07
 -----------------------------------------------------
 Benchmark           Time             CPU   Iterations
 -----------------------------------------------------
-BM_Day1           298 us          298 us         2352
-BM_Day2           607 us          607 us         1149
-BM_Day3           847 us          847 us          821
-BM_Day4           490 us          490 us         1422
-BM_Day5           129 us          129 us         5406
-BM_Day6          3.95 us         3.95 us       178069
-BM_Day7           891 us          891 us          776
-BM_Day8          4541 us         4541 us          154
-BM_Day9           419 us          419 us         1676
+BM_Day1           300 us          300 us         2343
+BM_Day2           608 us          608 us         1152
+BM_Day3           853 us          853 us          825
+BM_Day4           462 us          462 us         1509
+BM_Day5           129 us          129 us         5437
+BM_Day6          3.93 us         3.93 us       179557
+BM_Day7           889 us          889 us          762
+BM_Day8          4482 us         4482 us          157
+BM_Day9           404 us          404 us         1731
+BM_Day10          164 us          164 us         4310
 ```

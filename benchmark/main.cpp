@@ -9,6 +9,7 @@
 #include "day7.h"
 #include "day8.h"
 #include "day9.h"
+#include "day10.h"
 
 static void BM_Day1(benchmark::State& state)
 {
@@ -99,5 +100,15 @@ static void BM_Day9(benchmark::State& state)
     }
 }
 BENCHMARK(BM_Day9);
+
+static void BM_Day10(benchmark::State& state)
+{
+    for (auto _ : state)
+    {
+        Day10 d10("../src/inputs/input_day10.txt", false);
+        d10.solveDay(false);
+    }
+}
+BENCHMARK(BM_Day10);
 
 BENCHMARK_MAIN();

@@ -10,6 +10,7 @@
 #include "day8.h"
 #include "day9.h"
 #include "day10.h"
+#include "day11.h"
 
 #include <chrono>
 #include <cassert>
@@ -26,6 +27,7 @@ AdventOfCode::AdventOfCode()
     m_allDays.push_back(new Day8("inputs/input_day8.txt"));
     m_allDays.push_back(new Day9("inputs/input_day9.txt"));
     m_allDays.push_back(new Day10("inputs/input_day10.txt"));
+    m_allDays.push_back(new Day11("inputs/input_day11.txt"));
 }
 
 void AdventOfCode::solveDay(size_t day)

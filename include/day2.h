@@ -5,6 +5,13 @@
 
 #include <map>
 
+struct Handful
+{
+    int red = 0;
+    int green = 0;
+    int blue = 0;
+};
+
 class Day2 : public DayBase
 {
 public:
@@ -18,16 +25,8 @@ private:
     int solvePartOne();
     int solvePartTwo();
 
-    using Handful = std::map<std::string, int>;
     using Game = std::vector<Handful>;
     std::vector<Game> m_games;
-
-    const std::map<std::string, int> m_maxColours{
-        {"red", 12},
-        {"green", 13},
-        {"blue", 14}
-    };
-
 };
 
 #endif

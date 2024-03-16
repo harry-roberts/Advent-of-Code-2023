@@ -27,14 +27,14 @@ void Day3::parseInput()
 {
     for (size_t y = 0; y < m_inputLines.size(); y++)
     {
-        std::string_view line = m_inputLines.at(y);
+        std::string_view line = m_inputLines[y];
         bool isReadingNumber = false;
         int number = 0;
         size_t coordx = 0;
         size_t coordy = 0;
         for (size_t x = 0; x < line.size(); x++)
         {
-            char c = line.at(x);
+            char c = line[x];
             if (isdigit(c))
             {
                 if (isReadingNumber) // already reading a number from before
@@ -63,11 +63,6 @@ void Day3::parseInput()
                 m_partNumbers[partCoord] = number;
                 isReadingNumber = false;
             }
-            if (c != '.')
-            {
-                Coordinate symbolCoord{x, y};
-                m_symbols[symbolCoord] = c;
-            }
         }
     }
 }
@@ -88,12 +83,15 @@ int Day3::solvePartOne()
         {
             for (int y = coord.second-1; y <= coord.second+1; y++)
             {
+                if (x < 0 || y < 0 || (size_t)x >= m_inputLines[0].size() || 
+                    (size_t)y >= m_inputLines.size())
+                    continue;
                 Coordinate current{x, y};
-                if (m_symbols.count(current))
+                if (m_inputLines[y][x] != '.' && !isdigit(m_inputLines[y][x]))
                 {
                     validPartNumberSum += number;
                     // also checking for part 2 here since we are already iterating it
-                    if (m_symbols[current] == '*')
+                    if (m_inputLines[y][x] == '*')
                         m_gearsToNumbers[current].push_back(number);
                 }
             }

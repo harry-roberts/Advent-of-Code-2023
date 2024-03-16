@@ -21,10 +21,7 @@ private:
     int64_t solvePartTwo();
 
     std::map<Coordinate, int> m_partNumbers;
-    std::map<Coordinate, char> m_symbols;
-
     std::map<Coordinate, std::vector<int>> m_gearsToNumbers;
-
 };
 
 #endif

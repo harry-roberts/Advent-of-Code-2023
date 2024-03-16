@@ -28,7 +28,7 @@ void Day11::readGalaxyInfo()
     // iterate the image and find all galaxies
     // as we go, mark rows/cols with a galaxy by removing from set
     std::set<size_t> emptyCols;
-    for (size_t x = 0; x < m_inputLines.at(0).size(); x++) 
+    for (size_t x = 0; x < m_inputLines[0].size(); x++) 
         emptyCols.insert(emptyCols.end(), x);
 
     std::set<size_t> emptyRows;
@@ -37,9 +37,9 @@ void Day11::readGalaxyInfo()
 
     for (size_t y = 0; y < m_inputLines.size(); y++)
     {
-        for (size_t x = 0; x < m_inputLines.at(y).size(); x++)
+        for (size_t x = 0; x < m_inputLines[y].size(); x++)
         {
-            auto c = m_inputLines.at(y).at(x);
+            auto c = m_inputLines[y][x];
             if (c == '#')
             {
                 emptyCols.erase(x);
@@ -79,15 +79,15 @@ uint64_t Day11::calculateSumMinDistances(uint64_t expansionFactor)
     {
         for (size_t j = i+1; j < m_galaxies.size(); j++) // galaxy ahead of this
         {
-            uint64_t x1 = m_galaxies.at(i).first.first + // first galaxy x pos
-                            (m_galaxies.at(i).second.first * (expansionFactor-1)); // num of extra x
-            uint64_t y1 = m_galaxies.at(i).first.second + // first galaxy y pos
-                            (m_galaxies.at(i).second.second * (expansionFactor-1)); // num of extra y
+            uint64_t x1 = m_galaxies[i].first.first + // first galaxy x pos
+                            (m_galaxies[i].second.first * (expansionFactor-1)); // num of extra x
+            uint64_t y1 = m_galaxies[i].first.second + // first galaxy y pos
+                            (m_galaxies[i].second.second * (expansionFactor-1)); // num of extra y
 
-            uint64_t x2 = m_galaxies.at(j).first.first + // second galaxy x pos
-                            (m_galaxies.at(j).second.first * (expansionFactor-1)); // num of extra x
-            uint64_t y2 = m_galaxies.at(j).first.second + // second galaxy y pos
-                            (m_galaxies.at(j).second.second * (expansionFactor-1)); // num of extra y
+            uint64_t x2 = m_galaxies[j].first.first + // second galaxy x pos
+                            (m_galaxies[j].second.first * (expansionFactor-1)); // num of extra x
+            uint64_t y2 = m_galaxies[j].first.second + // second galaxy y pos
+                            (m_galaxies[j].second.second * (expansionFactor-1)); // num of extra y
 
             long long xDiff = llabs(x2 - x1);
             long long yDiff = llabs(y2 - y1);

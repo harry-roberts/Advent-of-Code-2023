@@ -2,7 +2,6 @@
 
 #include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
-#include <boost/lexical_cast.hpp>
 
 #include <unordered_set>
 
@@ -24,12 +23,12 @@ int Day4::parseLine(std::string_view line)
 
     std::unordered_set<int> winningSet;
     for (const auto& w : winningNumbers)
-        winningSet.insert(boost::lexical_cast<int>(w));
+        winningSet.insert(std::atoi(w.c_str()));
 
     int matches = 0;
     for (const auto& n : numbers)
     {
-        if (winningSet.contains(boost::lexical_cast<int>(n)))
+        if (winningSet.contains(std::atoi(n.c_str())))
            matches++;
     }
 
@@ -53,6 +52,7 @@ void Day4::solveDay(bool print)
 int Day4::solvePartOne()
 {
     int totalScore = 0;
+    m_lineMatches.reserve(m_inputLines.size());
     for (const auto& line : m_inputLines)
     {
         // score by doubling each time can just be bit shifted, but go back one at the end as 0 = 0 points
@@ -70,8 +70,8 @@ int Day4::solvePartTwo()
     for (size_t i = 0; i < m_lineMatches.size(); i++)
     {
         // for each score S, the next S cards get an additional copy
-        int score = m_lineMatches.at(i);
-        int currentCopiesOfThisCard = numberOfCopies.at(i);
+        int score = m_lineMatches[i];
+        int currentCopiesOfThisCard = numberOfCopies[i];
         size_t nextCard = i+1;
 
         // total number of cards increases by however many additional copies of this card we have
@@ -79,7 +79,7 @@ int Day4::solvePartTwo()
         int totalCopiesToGive = ++currentCopiesOfThisCard;
 
         for (size_t n = nextCard; (n < m_lineMatches.size() && n < (nextCard+score)); n++)
-            numberOfCopies.at(n) += totalCopiesToGive;
+            numberOfCopies[n] += totalCopiesToGive;
     }
 
     return totalNumberOfCards;

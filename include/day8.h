@@ -4,6 +4,26 @@
 #include "day_base.h"
 
 #include <unordered_map>
+#include <memory>
+
+struct Node
+{
+    std::string name;
+    mutable std::shared_ptr<Node> left = nullptr;
+    mutable std::shared_ptr<Node> right = nullptr;
+
+    Node(std::string_view name_) : name(name_) {}
+
+    bool operator==(const Node& b) const 
+    { 
+        return name == b.name; 
+    }
+
+    bool operator!=(const Node& b)
+    {
+        return !operator==(b);
+    }
+};
 
 class Day8 : public DayBase
 {
@@ -18,8 +38,8 @@ private:
 
     void parseInput();
 
-    // maps a node to a pair of left/right nodes
-    std::unordered_map<std::string, std::pair<std::string, std::string>> m_nodeMap;
+    // maps a node name to its node ptr
+    std::unordered_map<std::string, std::shared_ptr<Node>> m_nodeMap;
 };
 
 #endif

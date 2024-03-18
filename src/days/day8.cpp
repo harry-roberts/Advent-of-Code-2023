@@ -24,56 +24,72 @@ void Day8::solveDay(bool print)
 
 void Day8::parseInput()
 {
+    m_nodeMap.reserve(m_inputLines.size()-2);
+
+    // create empty nodes for each one that appears in the list
     for (size_t i = 2; i < m_inputLines.size(); i++)
     {
-        std::string_view sv{m_inputLines.at(i)};
-        std::string node{sv.substr(0, 3)};
-        std::string leftNode{sv.substr(7, 3)};
-        std::string rightNode{sv.substr(12, 3)};
+        std::string_view sv{m_inputLines[i]};
+        std::string nodeName{sv.substr(0, 3)};
+        m_nodeMap[nodeName] = std::make_shared<Node>(nodeName);
+    }
 
-        m_nodeMap[node] = {leftNode, rightNode};
+    // point the left/right pointers to the corresponding nodes
+    for (size_t i = 2; i < m_inputLines.size(); i++)
+    {
+        std::string_view sv{m_inputLines[i]};
+        std::string nodeName{sv.substr(0, 3)};
+        std::string nodeLeftName{sv.substr(7, 3)};
+        std::string nodeRightName{sv.substr(12, 3)};
+
+        // find the nodes in the set and set the left and right
+        auto node = m_nodeMap[nodeName];
+        auto nodeLeft = m_nodeMap[nodeLeftName];
+        auto nodeRight = m_nodeMap[nodeRightName];
+        node->left = nodeLeft;
+        node->right = nodeRight;
     }
 }
 
 uint64_t Day8::solvePartOne()
 {
     uint64_t steps = 0;
-    std::string currentNode = "AAA";
-    while (currentNode != "ZZZ")
+
+    auto currentNode = m_nodeMap["AAA"];
+    while (currentNode->name != "ZZZ")
     {
-        for (const auto direction : m_inputLines.at(0))
+        for (const auto direction : m_inputLines[0])
         {
-            auto possibleNodes = m_nodeMap[currentNode];
-            if (direction == 'L') currentNode = possibleNodes.first;
-            else currentNode = possibleNodes.second;
+            if (direction == 'L') currentNode = currentNode->left;
+            else currentNode = currentNode->right;
             steps++;
-            if (currentNode == "ZZZ") break;
+            if (currentNode->name == "ZZZ") break;
         }
     }
+
     return steps;
 }
 
 uint64_t Day8::solvePartTwo()
 {
-    std::vector<std::string> allNodes; // any node ending in 'A'
+    std::vector<std::shared_ptr<Node>> allNodes; // any node ending in 'A'
     std::vector<uint64_t> stepsRequired; // steps needed to be on a node ending in 'Z'
     // find all the nodes that end in A and add to vec
-    for (const auto& [node, directionPair] : m_nodeMap)
-        if (node.at(2) == 'A') allNodes.push_back(node);
+    for (const auto& [name, node] : m_nodeMap)
+        if (name[2] == 'A') allNodes.push_back(node);
 
     // same as step 1 for each required node but only checking for last char
     for (auto& node : allNodes)
     {
         int steps = 0;
-        while (node.at(2) != 'Z')
+        while (node->name[2] != 'Z')
         {
-            for (const auto direction : m_inputLines.at(0))
+            for (const auto direction : m_inputLines[0])
             {
-                auto possibleNodes = m_nodeMap[node];
-                if (direction == 'L') node = possibleNodes.first;
-                else node = possibleNodes.second;
+                if (direction == 'L') node = node->left;
+                else node = node->right;
                 steps++;
-                if (node.at(2) == 'Z') break;
+                if (node->name[2] == 'Z') break;
             }
         }
         stepsRequired.push_back(steps);
@@ -83,7 +99,7 @@ uint64_t Day8::solvePartTwo()
     // they will all finish at the same time at their lowest common multiple
     uint64_t lcm = 1;
     for (size_t i = 0; i < stepsRequired.size(); i++)
-        lcm = std::lcm(lcm, stepsRequired.at(i));
+        lcm = std::lcm(lcm, stepsRequired[i]);
 
     return lcm;
 }

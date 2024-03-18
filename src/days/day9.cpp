@@ -28,11 +28,12 @@ void Day9::solveDay(bool print)
 std::vector<int> Day9::parseLine(std::string_view line)
 {
     std::vector<int> rtn;
+    rtn.reserve(21); // every input line has 21 digits
     boost::char_separator<char> sep(" ");
     boost::tokenizer<boost::char_separator<char>> nums(line, sep);
 
     for (const auto& n : nums)
-        rtn.push_back(boost::lexical_cast<int>(n));
+        rtn.push_back(std::atoi(n.c_str()));
 
     return rtn;
 }
@@ -44,7 +45,7 @@ std::vector<int> calculateNextLine(std::vector<int>& line)
     std::vector<int> nextLine(line.size()-1);
 
     for (size_t i = 0; i < line.size()-1; i++)
-        nextLine.at(i) = line.at(i+1) - line.at(i); 
+        nextLine[i] = line[(i+1)] - line[i]; 
 
     return nextLine;
 }
@@ -52,9 +53,9 @@ std::vector<int> calculateNextLine(std::vector<int>& line)
 bool isLineAllSameNumber(std::vector<int>& line)
 {
     // don't need to get the all zero line, the line before will have all the same values
-    int firstNum = line.at(0);
+    int firstNum = line[0];
     for (size_t i = 1; i < line.size(); i++)
-        if (line.at(i) != firstNum) return false;
+        if (line[i] != firstNum) return false;
 
     return true;
 }
@@ -62,12 +63,16 @@ bool isLineAllSameNumber(std::vector<int>& line)
 int Day9::solvePartOne()
 {
     int totalSumOfLastNums = 0;
+    m_firstNumsVec.reserve(m_inputLines.size());
     for (auto& line : m_inputLines)
     {
         std::vector<int> lineVec = parseLine(line);
         // final numbers in each line - used in calculating new last number
         std::vector<int> lastNums;
         std::vector<int> firstNums;
+        // worst case these vectors will have as many elements as the line
+        lastNums.reserve(lineVec.size());
+        firstNums.reserve(lineVec.size());
         lastNums.push_back(lineVec.back());
         firstNums.push_back(lineVec.front()); // for part 2
 

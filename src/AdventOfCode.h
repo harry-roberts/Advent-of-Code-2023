@@ -4,6 +4,7 @@
 #include "day_base.h"
 
 #include <vector>
+#include <memory>
 
 class AdventOfCode
 {
@@ -13,7 +14,7 @@ public:
     void solveDay(size_t day);
     void solveAllDays();
 private:
-    std::vector<DayBase*> m_allDays;
+    std::vector<std::unique_ptr<DayBase>> m_allDays;
 };
 
 #endif

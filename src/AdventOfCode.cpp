@@ -13,21 +13,20 @@
 #include "day11.h"
 
 #include <chrono>
-#include <cassert>
 
 AdventOfCode::AdventOfCode()
 {
-    m_allDays.push_back(new Day1("inputs/input_day1.txt"));
-    m_allDays.push_back(new Day2("inputs/input_day2.txt"));
-    m_allDays.push_back(new Day3("inputs/input_day3.txt"));
-    m_allDays.push_back(new Day4("inputs/input_day4.txt"));
-    m_allDays.push_back(new Day5("inputs/input_day5.txt"));
-    m_allDays.push_back(new Day6("inputs/input_day6.txt"));
-    m_allDays.push_back(new Day7("inputs/input_day7.txt"));
-    m_allDays.push_back(new Day8("inputs/input_day8.txt"));
-    m_allDays.push_back(new Day9("inputs/input_day9.txt"));
-    m_allDays.push_back(new Day10("inputs/input_day10.txt"));
-    m_allDays.push_back(new Day11("inputs/input_day11.txt"));
+    m_allDays.push_back(std::make_unique<Day1>("inputs/input_day1.txt"));
+    m_allDays.push_back(std::make_unique<Day2>("inputs/input_day2.txt"));
+    m_allDays.push_back(std::make_unique<Day3>("inputs/input_day3.txt"));
+    m_allDays.push_back(std::make_unique<Day4>("inputs/input_day4.txt"));
+    m_allDays.push_back(std::make_unique<Day5>("inputs/input_day5.txt"));
+    m_allDays.push_back(std::make_unique<Day6>("inputs/input_day6.txt"));
+    m_allDays.push_back(std::make_unique<Day7>("inputs/input_day7.txt"));
+    m_allDays.push_back(std::make_unique<Day8>("inputs/input_day8.txt"));
+    m_allDays.push_back(std::make_unique<Day9>("inputs/input_day9.txt"));
+    m_allDays.push_back(std::make_unique<Day10>("inputs/input_day10.txt"));
+    m_allDays.push_back(std::make_unique<Day11>("inputs/input_day11.txt"));
 }
 
 void AdventOfCode::solveDay(size_t day)

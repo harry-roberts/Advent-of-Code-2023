@@ -43,7 +43,7 @@ private:
 class Day7 : public DayBase
 {
 public:
-    Day7(std::string filename, bool print = true);
+    Day7(const std::string&, bool print = true);
 
     void solveDay(bool print = true);
     

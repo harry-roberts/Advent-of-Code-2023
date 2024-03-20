@@ -1,6 +1,6 @@
 #include "day3.h"
 
-Day3::Day3(std::string filename, bool print)
+Day3::Day3(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

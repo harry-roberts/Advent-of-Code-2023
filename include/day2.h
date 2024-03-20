@@ -15,7 +15,7 @@ struct Handful
 class Day2 : public DayBase
 {
 public:
-    Day2(std::string filename, bool print = true);
+    Day2(const std::string& filename, bool print = true);
 
     void solveDay(bool print = true);
     

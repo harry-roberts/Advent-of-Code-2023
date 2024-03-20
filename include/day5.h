@@ -26,7 +26,7 @@ using Inputs = std::map<std::pair<std::string, std::string>, std::vector<Range>>
 class Day5 : public DayBase
 {
 public:
-    Day5(std::string filename, bool print = true);
+    Day5(const std::string& filename, bool print = true);
 
     void solveDay(bool print = true);
     

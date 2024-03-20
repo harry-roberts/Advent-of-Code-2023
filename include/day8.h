@@ -28,7 +28,7 @@ struct Node
 class Day8 : public DayBase
 {
 public:
-    Day8(std::string filename, bool print = true);
+    Day8(const std::string&, bool print = true);
 
     void solveDay(bool print = true);
     

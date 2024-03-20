@@ -5,7 +5,7 @@
 
 #include <unordered_set>
 
-Day4::Day4(std::string filename, bool print)
+Day4::Day4(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

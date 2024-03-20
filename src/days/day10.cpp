@@ -3,7 +3,7 @@
 #include <cassert>
 #include <cmath>
 
-Day10::Day10(std::string filename, bool print)
+Day10::Day10(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

@@ -13,7 +13,7 @@ using GalaxyInfo = std::pair<GalaxyPos, EmptyBefore>;
 class Day11 : public DayBase
 {
 public:
-    Day11(std::string filename, bool print = true);
+    Day11(const std::string&, bool print = true);
 
     void solveDay(bool print = true);
     

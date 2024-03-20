@@ -8,7 +8,7 @@
 class Day6 : public DayBase
 {
 public:
-    Day6(std::string filename, bool print = true);
+    Day6(const std::string&, bool print = true);
 
     void solveDay(bool print = true);
     

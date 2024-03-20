@@ -10,7 +10,7 @@ using Coordinate = std::pair<int, int>;
 class Day3 : public DayBase
 {
 public:
-    Day3(std::string filename, bool print = true);
+    Day3(const std::string&, bool print = true);
 
     void solveDay(bool print = true);
     

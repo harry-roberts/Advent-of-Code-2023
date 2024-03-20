@@ -4,7 +4,7 @@
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 
-Day6::Day6(std::string filename, bool print)
+Day6::Day6(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

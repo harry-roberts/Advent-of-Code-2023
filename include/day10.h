@@ -24,7 +24,7 @@ using Traversal = std::pair<Coord, Direction>;
 class Day10 : public DayBase
 {
 public:
-    Day10(std::string filename, bool print = true);
+    Day10(const std::string&, bool print = true);
 
     void solveDay(bool print = true);
     

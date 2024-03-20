@@ -6,7 +6,7 @@
 
 #include <numeric>
 
-Day9::Day9(std::string filename, bool print)
+Day9::Day9(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

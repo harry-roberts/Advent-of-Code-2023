@@ -3,7 +3,7 @@
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
 
-Day2::Day2(std::string filename, bool print)
+Day2::Day2(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

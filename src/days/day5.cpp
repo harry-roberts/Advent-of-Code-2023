@@ -7,7 +7,7 @@
 #include <cassert>
 #include <limits>
 
-Day5::Day5(std::string filename, bool print)
+Day5::Day5(const std::string& filename, bool print)
 {
     readInput(filename, print);
 }

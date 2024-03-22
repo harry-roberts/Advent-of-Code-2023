@@ -1,0 +1,197 @@
+#include "day12.h"
+
+#include <boost/algorithm/string.hpp>
+#include <boost/tokenizer.hpp>
+
+#include <numeric>
+
+Day12::Day12(const std::string& filename, bool print)
+{
+    readInput(filename, print);
+}
+
+void Day12::solveDay(bool print)
+{
+    if (print)
+    {
+        std::cout << "Day 12 Part 1: " << solvePartOne() << std::endl;
+        std::cout << "Day 12 Part 2: " << solvePartTwo() << std::endl;
+    }
+    else
+    {
+        solvePartOne();
+        solvePartTwo();
+    }
+}
+
+// define a DFA that validates an input against the defined groups
+// each node has a defined action for an input of a dot or a hash
+// if undefined for a given input at a node, the head is invalid and ends
+// if defined, move any head at that node to the node it points to (can be itself)
+// for e.g. groups of 1,2 the chain looks like:
+//
+//          [ start ] ).    dot links to itself at start
+//             | #          then a hash moves forward
+//          [ node  ]       no definition for hash at this node
+//             | .          because after 1 hash given, a dot is required
+//          [ node  ] ).    now a dot can link to itself
+//             | #          when given a hash, move to next node
+//          [ node  ]       no dot defined here, it needs its second hash
+//             | #          second hash advances to next node
+//          [ node  ] ).    now completed last group, dot links to itself
+//                          no hash defined as we have finished the given groups
+//
+// each node has a counter of how many heads are currently there
+// start with 1 head at the start node
+// move as required for each character in the record
+// for a '?', split the head into 2, one for '.' and one for '#'
+// this creates more heads as the record inputs are given to the chain
+// heads are removed when they have no input action at their node
+// after all record inputs have been given, check how many heads are at the end node
+// this is the number of ways that the record could have ended up being a valid pattern
+
+DfaChain::DfaChain(const std::vector<size_t>& groups)
+{
+    // init chain with one node for each hash, plus one node after each hash
+    // the node after is either a required dot to advance, or a dot linking to itself at the end
+    // the start node will either be hash into first group hash, or dot to itself
+    // the end node will be the final hash, with dot into itself
+    size_t numNodes = std::reduce(groups.begin(), groups.end()) + groups.size();
+    m_dfaChain.reserve(numNodes);
+    for (size_t i = 0; i < numNodes; i++)
+        m_dfaChain.push_back(std::make_shared<DfaNode>());
+    
+    // move through the chain
+    size_t chainPos = 0;
+    for (const auto groupSize : groups)
+    {
+        // for first in group a dot goes to itself, there can be any number of dots before any group
+        m_dfaChain[chainPos]->inputDot = m_dfaChain[chainPos]; 
+        // each group is then a subchain of hashes, with a dot at the end (unless the final hash)
+        for (size_t i = 0; i < groupSize; i++)
+        {
+            m_dfaChain[chainPos]->inputHash = m_dfaChain[chainPos+1]; // dot remains nullptr
+            chainPos++;
+        }
+        if (chainPos != numNodes-1) // if not the final node
+        {
+            // require a dot moving forward
+            // not needed at end as the final node links to itself for optional dots
+            m_dfaChain[chainPos]->inputDot = m_dfaChain[chainPos+1];
+            chainPos++;
+        }
+    }
+    // link the final node to itself by dot, there can be any number of dots after the final group
+    m_dfaChain[chainPos]->inputDot = m_dfaChain[chainPos];
+}
+
+uint64_t DfaChain::solve(std::string_view records)
+{
+    m_dfaChain[0]->headsHere = 1; // starting point
+
+    size_t maxNodePos = 0;
+
+    for (const auto c : records)
+    {
+        // apply the character as an input to every head at each node in the chain
+        // a head can *at best* move forward one node each input
+        // so only check up to our max possible current node pos to save some iterations
+        for (size_t i = 0; i <= maxNodePos; i++)
+        {
+            if (m_dfaChain[i]->headsHere > 0)
+            {
+                // a question mark should trigger both options
+                if (c == '.' || c == '?')
+                {
+                    if (m_dfaChain[i]->inputDot != nullptr)
+                        m_dfaChain[i]->inputDot->incoming += m_dfaChain[i]->headsHere;
+                }
+                if (c == '#' || c == '?')
+                {
+                    if (m_dfaChain[i]->inputHash != nullptr)
+                        m_dfaChain[i]->inputHash->incoming += m_dfaChain[i]->headsHere;
+                }
+            }
+        }
+        // all heads now advanced, now set heads to the incoming value, reset incoming to 0
+        // can also use maxNodePos here, checking 1 ahead, but limited to chain size
+        for (size_t i = 0; i <= std::min(maxNodePos+1, m_dfaChain.size()-1); i++)
+        {
+            m_dfaChain[i]->headsHere = m_dfaChain[i]->incoming;
+            m_dfaChain[i]->incoming = 0;
+        }
+        if (maxNodePos < m_dfaChain.size()-1) 
+            maxNodePos++; // if not already at final pos, increment max node pos
+    }
+
+    return m_dfaChain.back()->headsHere; // all heads at the end node
+}
+
+void Day12::parseInput()
+{
+    for (const auto& line : m_inputLines)
+    {
+        std::string_view sv{line};
+        size_t space = sv.find_first_of(' ');
+        std::string_view recordStr = sv.substr(0, space);
+        std::string_view groupsStr = sv.substr(space+1);
+
+        boost::char_separator<char> sep(",");
+        boost::tokenizer<boost::char_separator<char>> groups(groupsStr, sep);
+
+        std::vector<size_t> groupsVec;
+        for (const auto& g : groups)
+        {
+            groupsVec.push_back(std::atoi(g.c_str()));
+        }
+
+        m_parsedInput.push_back(std::make_pair<std::string_view, std::vector<size_t>>(
+            std::move(recordStr), std::move(groupsVec)));
+    }
+}
+
+uint64_t Day12::solvePartOne()
+{
+    parseInput();
+    uint64_t ans = 0;
+
+    for (const auto& input : m_parsedInput)
+    {
+        DfaChain dfa(input.second);
+        ans += dfa.solve(input.first);
+    }
+
+    return ans;
+}
+
+uint64_t Day12::solvePartTwo()
+{
+    uint64_t ans = 0;
+
+    for (auto& input : m_parsedInput)
+    {
+        std::string newRecords{input.first};
+        newRecords.reserve((input.first.size()*5) + 4);
+        for (size_t i = 0; i < 4; i++)
+        {
+            newRecords += "?";
+            newRecords += input.first;
+        }
+
+        size_t sz = input.second.size();
+        input.second.reserve(sz*5);
+
+        for (size_t i = 0; i < 4; i++)
+        {
+            for (size_t j = 0; j < sz; j++)
+            {
+                input.second.push_back(input.second[j]);
+            }
+        }
+        DfaChain dfa(input.second);
+
+        ans += dfa.solve(newRecords);
+    }
+
+    return ans;
+}

@@ -4,6 +4,7 @@ CXX = g++
 CXXFLAGS = -std=c++20 -Wall -O3
 BMFLAGS = -isystem ../../tools/benchmark/include -I../include/ -L../../tools/benchmark/build/src -lbenchmark -lpthread
 OUTFLAG = -o $(BUILD_EXE)
+DEBUGFLAG = -g
 
 $(BUILD_DIR):
 	@ mkdir -p $(BUILD_DIR)
@@ -15,6 +16,9 @@ all: $(BUILD_DIR)
 
 run: all
 	@ $(BUILD_EXE) --benchmark_time_unit=us
+
+debug: $(BUILD_DIR)
+	$(CXX) $(SOURCES) $(CXXFLAGS) $(BMFLAGS) $(DEBUGFLAG) $(OUTFLAG)
 
 clean:
 	@ echo Cleaning build

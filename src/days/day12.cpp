@@ -30,16 +30,20 @@ void Day12::solveDay(bool print)
 // if defined, move any head at that node to the node it points to (can be itself)
 // for e.g. groups of 1,2 the chain looks like:
 //
-//          [ start ] ).    dot links to itself at start
-//             | #          then a hash moves forward
-//          [ node  ]       no definition for hash at this node
-//             | .          because after 1 hash given, a dot is required
-//          [ node  ] ).    now a dot can link to itself
-//             | #          when given a hash, move to next node
-//          [ node  ]       no dot defined here, it needs its second hash
-//             | #          second hash advances to next node
-//          [ node  ] ).    now completed last group, dot links to itself
-//                          no hash defined as we have finished the given groups
+//    ). = dot linking to same node
+//    |./# = advancement path for that input
+//    [node] = a node that any number of heads can be sitting at
+//
+//   start  [node] ).   dot links to itself at start
+//             |#       then a hash moves forward
+//          [node]      no definition for hash at this node
+//             |.       because after 1 hash given, a dot is required
+//          [node] ).   now a dot can link to itself
+//             |#       but when given a hash, move to next node
+//          [node]      no dot defined here, it needs its second hash
+//             |#       second hash advances to next node
+//          [node] ).   now completed last group, dot links to itself
+//                      no hash defined as we have finished the given groups
 //
 // each node has a counter of how many heads are currently there
 // start with 1 head at the start node
@@ -181,13 +185,9 @@ uint64_t Day12::solvePartTwo()
         size_t sz = input.second.size();
         input.second.reserve(sz*5);
 
-        for (size_t i = 0; i < 4; i++)
-        {
-            for (size_t j = 0; j < sz; j++)
-            {
-                input.second.push_back(input.second[j]);
-            }
-        }
+        for (size_t i = 0; i < 4; i++) // add the group to itself 4 more times
+            std::copy_n(input.second.begin(), sz, std::back_inserter(input.second));
+
         DfaChain dfa(input.second);
 
         ans += dfa.solve(newRecords);

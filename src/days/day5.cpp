@@ -9,22 +9,7 @@
 
 Day5::Day5(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day5::solveDay(bool print)
-{
-    parseInput();
-    if (print)
-    {
-        std::cout << "Day 5 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 5 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 void Day5::parseInput()
@@ -154,8 +139,9 @@ int Day5::solve(std::vector<Range>& inputVec)
     return lowestLocation;
 }
 
-int Day5::solvePartOne()
+Day5::Part1Type Day5::solvePartOne()
 {
+    parseInput();
     std::vector<Range> seedRanges;
     for (size_t i = 0; i < m_seedNums.size(); i++)
         seedRanges.push_back({m_seedNums.at(i), m_seedNums.at(i), 1});
@@ -163,7 +149,7 @@ int Day5::solvePartOne()
     return solve(seedRanges);
 }
 
-int Day5::solvePartTwo()
+Day5::Part2Type Day5::solvePartTwo()
 {
     std::vector<Range> seedRanges;
     for (size_t i = 0; i < m_seedNums.size(); i=i+2)

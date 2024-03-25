@@ -2,34 +2,20 @@
 
 Day1::Day1(const std::string& filename, bool print)
 {
-    readInput(filename, print);
+    readInputToStringVec(filename, print);
 }
 
-void Day1::solveDay(bool print)
-{
-    if (print)
-    {
-        std::cout << "Day 1 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 1 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
-}
-
-int Day1::solvePartOne()
+Day1::Part1Type Day1::solvePartOne()
 {
     return solve();
 }
 
-int Day1::solvePartTwo()
+Day1::Part2Type Day1::solvePartTwo()
 {
     return solve(true);
 }
 
-int Day1::solve(bool includeWords)
+Day1::Part1Type Day1::solve(bool includeWords)
 {
     int total = 0;
 

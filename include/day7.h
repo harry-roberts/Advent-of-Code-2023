@@ -40,16 +40,14 @@ private:
     int m_numJokers = 0;
 };
 
-class Day7 : public DayBase
+class Day7 : public DayBaseImpl<>
 {
 public:
     Day7(const std::string&, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
-    int solvePartOne();
-    int solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     std::vector<Hand> m_allHands;
 };

@@ -3,18 +3,16 @@
 
 #include "day_base.h"
 
-class Day1 : public DayBase
+class Day1 : public DayBaseImpl<>
 {
 public:
     Day1(const std::string& filename, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
-    int solve(bool includeWords = false);
+    Part1Type solve(bool includeWords = false);
 
-    int solvePartOne();
-    int solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     const std::vector<std::string> digitWords{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 

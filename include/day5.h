@@ -23,16 +23,15 @@ struct Range
 // source/dest name pair to a vector of Ranges, e.g. ("seed", "soil") -> [r1, r2, r3...]
 using Inputs = std::map<std::pair<std::string, std::string>, std::vector<Range>>;
 
-class Day5 : public DayBase
+class Day5 : public DayBaseImpl<>
 {
 public:
     Day5(const std::string& filename, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
-    int solvePartOne();
-    int solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
+    
     void parseInput();
 
     int solve(std::vector<Range>& inputVec);

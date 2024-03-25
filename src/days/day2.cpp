@@ -5,7 +5,7 @@
 
 Day2::Day2(const std::string& filename, bool print)
 {
-    readInput(filename, print);
+    readInputToStringVec(filename, print);
 }
 
 void Day2::parseInput()
@@ -40,23 +40,9 @@ void Day2::parseInput()
     }
 }
 
-void Day2::solveDay(bool print)
+Day2::Part1Type Day2::solvePartOne()
 {
     parseInput();
-    if (print)
-    {
-        std::cout << "Day 2 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 2 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
-}
-
-int Day2::solvePartOne()
-{
     int totalSum = 0;
 
     for (size_t i = 0; i < m_games.size(); i++)
@@ -73,11 +59,10 @@ int Day2::solvePartOne()
         if (isGameValid)
             totalSum += (i+1);
     }
-
     return totalSum;
 }
 
-int Day2::solvePartTwo()
+Day2::Part2Type Day2::solvePartTwo()
 {
     int totalPower = 0;
     for (auto& game : m_games)

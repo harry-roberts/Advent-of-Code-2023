@@ -2,22 +2,7 @@
 
 Day3::Day3(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day3::solveDay(bool print)
-{
-    parseInput();
-    if (print)
-    {
-        std::cout << "Day 3 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 3 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 // parse input into:
@@ -67,8 +52,9 @@ void Day3::parseInput()
     }
 }
 
-int Day3::solvePartOne()
+Day3::Part1Type Day3::solvePartOne()
 {
+    parseInput();
     int validPartNumberSum = 0;
     // for each part number, check to see if the coordinates around it exist in the symbol map
     for (auto& [coord, number] : m_partNumbers)
@@ -100,7 +86,7 @@ int Day3::solvePartOne()
     return validPartNumberSum;
 }
 
-int64_t Day3::solvePartTwo()
+Day3::Part2Type Day3::solvePartTwo()
 {
     int gearRatioSum = 0;
     // in part 1 we also added any part number touching a gear into a map of all gears

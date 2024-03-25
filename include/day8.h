@@ -25,16 +25,14 @@ struct Node
     }
 };
 
-class Day8 : public DayBase
+class Day8 : public DayBaseImpl<>
 {
 public:
     Day8(const std::string&, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
-    uint64_t solvePartOne();
-    uint64_t solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     void parseInput();
 

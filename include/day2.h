@@ -12,19 +12,17 @@ struct Handful
     int blue = 0;
 };
 
-class Day2 : public DayBase
+class Day2 : public DayBaseImpl<int, int>
 {
 public:
     Day2(const std::string& filename, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
     void parseInput();
 
-    int solvePartOne();
-    int solvePartTwo();
-
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
+    
     using Game = std::vector<Handful>;
     std::vector<Game> m_games;
 };

@@ -5,22 +5,7 @@
 
 Day11::Day11(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day11::solveDay(bool print)
-{
-    readGalaxyInfo();
-    if (print)
-    {
-        std::cout << "Day 11 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 11 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 void Day11::readGalaxyInfo()
@@ -98,13 +83,14 @@ uint64_t Day11::calculateSumMinDistances(uint64_t expansionFactor)
     return sumMinDistances;
 }
 
-uint64_t Day11::solvePartOne()
+Day11::Part1Type Day11::solvePartOne()
 {
+    readGalaxyInfo();
     // empty rows/cols are twice as big
     return calculateSumMinDistances(2);
 }
 
-uint64_t Day11::solvePartTwo()
+Day11::Part2Type Day11::solvePartTwo()
 {
     // empty rows/cols are 1000000x as big
     return calculateSumMinDistances(1000000);

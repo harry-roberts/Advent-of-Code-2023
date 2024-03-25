@@ -5,16 +5,14 @@
 
 #include <map>
 
-class Day6 : public DayBase
+class Day6 : public DayBaseImpl<>
 {
 public:
     Day6(const std::string&, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
-    uint64_t solvePartOne();
-    uint64_t solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     void parseInput();
     uint64_t solveNumWaysToWin(uint64_t T, uint64_t target);

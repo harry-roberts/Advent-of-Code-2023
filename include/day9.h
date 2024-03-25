@@ -3,17 +3,16 @@
 
 #include "day_base.h"
 
-class Day9 : public DayBase
+class Day9 : public DayBaseImpl<>
 {
 public:
     Day9(const std::string&, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
     std::vector<int> parseLine(std::string_view line);
-    int solvePartOne();
-    int solvePartTwo();
+    
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     std::vector<std::vector<int>> m_firstNumsVec;
 };

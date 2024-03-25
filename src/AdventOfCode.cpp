@@ -36,9 +36,13 @@ void AdventOfCode::solveDay(size_t day)
     assert(day <= m_allDays.size() && day > 0);
     std::cout << "-------------------------" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
-    m_allDays.at(day-1)->solveDay();
+    m_allDays[day-1]->solveDay();
     auto elapsed = std::chrono::high_resolution_clock::now() - start;
-    std::cout << "Time: " << std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count() << " microseconds" << std::endl;
+    std::cout << "Day " << day << " solution:" << "\n";
+    m_allDays[day-1]->print();
+    std::cout << "Time: "
+              << std::chrono::duration_cast<std::chrono::microseconds>(elapsed).count() 
+              << " microseconds\n";
 }
 
 void AdventOfCode::solveAllDays()

@@ -10,16 +10,14 @@ using EmptyBefore = std::pair<size_t, size_t>;
 // this is all the needed information about a galaxy
 using GalaxyInfo = std::pair<GalaxyPos, EmptyBefore>;
 
-class Day11 : public DayBase
+class Day11 : public DayBaseImpl<>
 {
 public:
     Day11(const std::string&, bool print = true);
 
-    void solveDay(bool print = true);
-    
 private:
-    uint64_t solvePartOne();
-    uint64_t solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     // parse the input into the info of all galaxies and the empty rows
     void readGalaxyInfo();

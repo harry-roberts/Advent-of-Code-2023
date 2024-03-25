@@ -4,22 +4,7 @@
 
 Day8::Day8(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day8::solveDay(bool print)
-{
-    parseInput();
-    if (print)
-    {
-        std::cout << "Day 8 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 8 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 void Day8::parseInput()
@@ -51,8 +36,9 @@ void Day8::parseInput()
     }
 }
 
-uint64_t Day8::solvePartOne()
+Day8::Part1Type Day8::solvePartOne()
 {
+    parseInput();
     uint64_t steps = 0;
 
     auto currentNode = m_nodeMap["AAA"];
@@ -70,7 +56,7 @@ uint64_t Day8::solvePartOne()
     return steps;
 }
 
-uint64_t Day8::solvePartTwo()
+Day8::Part2Type Day8::solvePartTwo()
 {
     std::vector<std::shared_ptr<Node>> allNodes; // any node ending in 'A'
     std::vector<uint64_t> stepsRequired; // steps needed to be on a node ending in 'Z'

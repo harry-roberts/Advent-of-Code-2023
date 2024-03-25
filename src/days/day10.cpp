@@ -5,24 +5,7 @@
 
 Day10::Day10(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day10::solveDay(bool print)
-{
-    // pre allocate the same size as the input for the copy and set all to '.'
-    std::string s(m_inputLines.at(0).size(), '.');
-    m_inputCopy = std::vector<std::string>(m_inputLines.size(), s);
-    if (print)
-    {
-        std::cout << "Day 10 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 10 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 bool Day10::canGoAbove(const size_t sX, const size_t sY)
@@ -112,8 +95,12 @@ void Day10::move(Traversal& pos)
     }
 }
 
-int Day10::solvePartOne()
+Day10::Part1Type Day10::solvePartOne()
 {
+    // pre allocate the same size as the input for the copy and set all to '.'
+    std::string s(m_inputLines.at(0).size(), '.');
+    m_inputCopy = std::vector<std::string>(m_inputLines.size(), s);
+
     // find the location of the S character
     size_t sX = 0;
     size_t sY = 0;
@@ -145,7 +132,7 @@ int Day10::solvePartOne()
     return std::ceil(furthestPoint);
 }
 
-int Day10::solvePartTwo()
+Day10::Part2Type Day10::solvePartTwo()
 {
     // We marked only the loop on the map in part 1. Scan across each line, we are
     // inside the loop when we cross either a vertical piece, or a chosen pair of corners

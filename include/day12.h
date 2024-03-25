@@ -28,17 +28,16 @@ private:
 };
 
 
-class Day12 : public DayBase
+class Day12 : public DayBaseImpl<>
 {
 public:
     Day12(const std::string& filename, bool print = true);
-
-    void solveDay(bool print = true);
-    void parseInput();
     
 private:
-    uint64_t solvePartOne();
-    uint64_t solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
+
+    void parseInput();
 
     // turn each input line into a pair of records and groups
     std::vector<std::pair<std::string_view, std::vector<size_t>>> m_parsedInput;

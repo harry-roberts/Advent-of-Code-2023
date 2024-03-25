@@ -7,7 +7,7 @@
 
 Day4::Day4(const std::string& filename, bool print)
 {
-    readInput(filename, print);
+    readInputToStringVec(filename, print);
 }
 
 int Day4::parseLine(std::string_view line)
@@ -35,21 +35,8 @@ int Day4::parseLine(std::string_view line)
     return matches;
 }
 
-void Day4::solveDay(bool print)
-{
-    if (print)
-    {
-        std::cout << "Day 4 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 4 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
-}
 
-int Day4::solvePartOne()
+Day4::Part1Type Day4::solvePartOne()
 {
     int totalScore = 0;
     m_lineMatches.reserve(m_inputLines.size());
@@ -63,7 +50,7 @@ int Day4::solvePartOne()
     return totalScore;
 }
 
-int Day4::solvePartTwo()
+Day4::Part2Type Day4::solvePartTwo()
 {
     int totalNumberOfCards = m_lineMatches.size(); // starting with as many cards as we have
     std::vector<int> numberOfCopies(m_lineMatches.size(), 0); // number of additional copies of each card

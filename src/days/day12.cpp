@@ -7,21 +7,7 @@
 
 Day12::Day12(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day12::solveDay(bool print)
-{
-    if (print)
-    {
-        std::cout << "Day 12 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 12 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 // define a DFA that validates an input against the defined groups
@@ -154,7 +140,7 @@ void Day12::parseInput()
     }
 }
 
-uint64_t Day12::solvePartOne()
+Day12::Part1Type Day12::solvePartOne()
 {
     parseInput();
     uint64_t ans = 0;
@@ -168,7 +154,7 @@ uint64_t Day12::solvePartOne()
     return ans;
 }
 
-uint64_t Day12::solvePartTwo()
+Day12::Part2Type Day12::solvePartTwo()
 {
     uint64_t ans = 0;
 

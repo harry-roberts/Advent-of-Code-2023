@@ -7,18 +7,16 @@
 
 using Coordinate = std::pair<int, int>;
 
-class Day3 : public DayBase
+class Day3 : public DayBaseImpl<>
 {
 public:
     Day3(const std::string&, bool print = true);
-
-    void solveDay(bool print = true);
     
 private:
     void parseInput();
 
-    int solvePartOne();
-    int64_t solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     std::map<Coordinate, int> m_partNumbers;
     std::map<Coordinate, std::vector<int>> m_gearsToNumbers;

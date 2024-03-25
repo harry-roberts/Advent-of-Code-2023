@@ -21,17 +21,14 @@ using Coord = std::pair<size_t, size_t>;
 // a position paired with where it came from to get there
 using Traversal = std::pair<Coord, Direction>;
 
-class Day10 : public DayBase
+class Day10 : public DayBaseImpl<>
 {
 public:
     Day10(const std::string&, bool print = true);
 
-    void solveDay(bool print = true);
-    
 private:
-
-    int solvePartOne();
-    int solvePartTwo();
+    Part1Type solvePartOne() override;
+    Part2Type solvePartTwo() override;
 
     char findEffectiveS(const size_t sX, const size_t sY);
     bool canGoAbove(const size_t sX, const size_t sY);

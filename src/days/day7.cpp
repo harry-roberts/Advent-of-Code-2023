@@ -4,21 +4,7 @@
 
 Day7::Day7(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day7::solveDay(bool print)
-{
-    if (print)
-    {
-        std::cout << "Day 7 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 7 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 Hand::Hand(const std::string& handStr, int bid, bool isWild)
@@ -124,7 +110,7 @@ int Hand::cardToRank(char c)
     return 12; // ace
 }
 
-int Day7::solvePartOne()
+Day7::Part1Type Day7::solvePartOne()
 {
     m_allHands.reserve(m_inputLines.size());
     // read every line into a hand, then add to a vector and sort at the end
@@ -144,7 +130,7 @@ int Day7::solvePartOne()
     return totalSum;
 }
 
-int Day7::solvePartTwo()
+Day7::Part2Type Day7::solvePartTwo()
 {
     // re-evaluate each ranking based on it being wild
     for (auto& h : m_allHands)

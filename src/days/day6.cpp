@@ -6,22 +6,7 @@
 
 Day6::Day6(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day6::solveDay(bool print)
-{
-    parseInput();
-    if (print)
-    {
-        std::cout << "Day 6 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 6 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 void Day6::parseInput()
@@ -95,8 +80,9 @@ uint64_t Day6::solveNumWaysToWin(uint64_t T, uint64_t target)
     return (lastWin - firstWin + 1); // +1 for inclusive bounds
 }
 
-uint64_t Day6::solvePartOne()
+Day6::Part1Type Day6::solvePartOne()
 {
+    parseInput();
     uint64_t multiplyWays = 1;
     for (const auto& [time, dist] : m_races)
         multiplyWays *= solveNumWaysToWin(time, dist);
@@ -112,7 +98,7 @@ uint64_t concat(uint64_t a, uint64_t b)
     return stoull(s);
 }
 
-uint64_t Day6::solvePartTwo()
+Day6::Part2Type Day6::solvePartTwo()
 {
     // concat all the numbers, then just 1 result
     uint64_t concatTime = 0;

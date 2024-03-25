@@ -8,21 +8,7 @@
 
 Day9::Day9(const std::string& filename, bool print)
 {
-    readInput(filename, print);
-}
-
-void Day9::solveDay(bool print)
-{
-    if (print)
-    {
-        std::cout << "Day 9 Part 1: " << solvePartOne() << std::endl;
-        std::cout << "Day 9 Part 2: " << solvePartTwo() << std::endl;
-    }
-    else
-    {
-        solvePartOne();
-        solvePartTwo();
-    }
+    readInputToStringVec(filename, print);
 }
 
 std::vector<int> Day9::parseLine(std::string_view line)
@@ -60,7 +46,7 @@ bool isLineAllSameNumber(std::vector<int>& line)
     return true;
 }
 
-int Day9::solvePartOne()
+Day9::Part1Type Day9::solvePartOne()
 {
     int totalSumOfLastNums = 0;
     m_firstNumsVec.reserve(m_inputLines.size());
@@ -92,7 +78,7 @@ int Day9::solvePartOne()
     return totalSumOfLastNums;
 }
 
-int Day9::solvePartTwo()
+Day9::Part2Type Day9::solvePartTwo()
 {
     int totalSumOfFirstNums = 0;
     for (const auto& firstNums : m_firstNumsVec)

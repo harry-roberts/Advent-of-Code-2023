@@ -13,6 +13,7 @@
 #include "day11.h"
 #include "day12.h"
 #include "day13.h"
+#include "day14.h"
 
 #include <chrono>
 
@@ -31,6 +32,7 @@ AdventOfCode::AdventOfCode()
     m_allDays.push_back(std::make_unique<Day11>("inputs/input_day11.txt"));
     m_allDays.push_back(std::make_unique<Day12>("inputs/input_day12.txt"));
     m_allDays.push_back(std::make_unique<Day13>("inputs/input_day13.txt"));
+    m_allDays.push_back(std::make_unique<Day14>("inputs/input_day14.txt"));
 }
 
 void AdventOfCode::solveDay(size_t day)

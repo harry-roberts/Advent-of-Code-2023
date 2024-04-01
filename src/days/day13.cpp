@@ -1,5 +1,8 @@
 #include "day13.h"
 
+namespace d13
+{
+
 Day13::Day13(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -101,3 +104,5 @@ Day13::Part2Type Day13::solvePartTwo()
     
     return ans;
 }
+
+} //namespace d13

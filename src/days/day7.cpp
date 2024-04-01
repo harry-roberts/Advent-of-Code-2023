@@ -2,6 +2,9 @@
 
 #include <boost/algorithm/string.hpp>
 
+namespace d7
+{
+
 Day7::Day7(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -144,3 +147,5 @@ Day7::Part2Type Day7::solvePartTwo()
 
     return totalSum;
 }
+
+} //namespace d7

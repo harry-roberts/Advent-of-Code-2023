@@ -3,6 +3,9 @@
 #include <boost/algorithm/string.hpp>
 #include <algorithm>
 
+namespace d2
+{
+
 Day2::Day2(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -86,3 +89,5 @@ Day2::Part2Type Day2::solvePartTwo()
 
     return totalPower;
 }
+
+} //namespace d2

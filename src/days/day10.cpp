@@ -3,6 +3,9 @@
 #include <cassert>
 #include <cmath>
 
+namespace d10
+{
+
 Day10::Day10(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -157,3 +160,5 @@ Day10::Part2Type Day10::solvePartTwo()
 
     return areaCount;
 }
+
+} //namespace d10

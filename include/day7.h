@@ -9,6 +9,9 @@
 #define HAND_SIZE 5
 #define CARD_TYPES 13
 
+namespace d7
+{
+
 enum class HandRanking
 {
     HighCard,
@@ -51,5 +54,7 @@ private:
 
     std::vector<Hand> m_allHands;
 };
+
+} //namespace d7
 
 #endif

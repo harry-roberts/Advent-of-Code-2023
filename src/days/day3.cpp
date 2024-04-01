@@ -1,5 +1,8 @@
 #include "day3.h"
 
+namespace d3
+{
+
 Day3::Day3(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -100,3 +103,5 @@ Day3::Part2Type Day3::solvePartTwo()
     }
     return gearRatioSum;
 }
+
+} //namespace d3

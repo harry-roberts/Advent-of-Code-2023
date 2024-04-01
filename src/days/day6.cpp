@@ -4,6 +4,9 @@
 #include <boost/tokenizer.hpp>
 #include <boost/lexical_cast.hpp>
 
+namespace d6
+{
+
 Day6::Day6(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -110,3 +113,5 @@ Day6::Part2Type Day6::solvePartTwo()
     }
     return solveNumWaysToWin(concatTime, concatDist);
 }
+
+} //namespace d6

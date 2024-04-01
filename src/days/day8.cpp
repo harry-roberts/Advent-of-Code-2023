@@ -2,6 +2,9 @@
 
 #include <numeric>
 
+namespace d8
+{
+
 Day8::Day8(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -89,3 +92,5 @@ Day8::Part2Type Day8::solvePartTwo()
 
     return lcm;
 }
+
+} //namespace d8

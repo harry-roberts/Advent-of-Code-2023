@@ -3,6 +3,9 @@
 
 #include "day_base.h"
 
+namespace d15
+{
+
 class Day15 : public DayBaseImpl<>
 {
 public:
@@ -17,5 +20,7 @@ private:
 
     std::vector<std::string_view> m_seqSteps;
 };
+
+} //namespace d15
 
 #endif

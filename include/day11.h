@@ -3,6 +3,9 @@
 
 #include "day_base.h"
 
+namespace d11
+{
+
 // x,y location of galaxy
 using GalaxyPos = std::pair<size_t, size_t>;
 // number of empty cols, rows before a galaxy's pos
@@ -26,5 +29,7 @@ private:
 
     std::vector<GalaxyInfo> m_galaxies;
 };
+
+} //namespace d11
 
 #endif

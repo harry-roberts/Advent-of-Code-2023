@@ -3,6 +3,9 @@
 #include <unordered_map>
 #include <list>
 
+namespace d15
+{
+
 Day15::Day15(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -125,3 +128,5 @@ Day15::Part2Type Day15::solvePartTwo()
 
     return totalPower;
 }
+
+} //namespace d15

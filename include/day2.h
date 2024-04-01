@@ -5,6 +5,9 @@
 
 #include <map>
 
+namespace d2
+{
+
 struct Handful
 {
     int red = 0;
@@ -26,5 +29,7 @@ private:
     using Game = std::vector<Handful>;
     std::vector<Game> m_games;
 };
+
+} //namespace d2
 
 #endif

@@ -7,6 +7,9 @@
 #include <cassert>
 #include <limits>
 
+namespace d5
+{
+
 Day5::Day5(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -157,3 +160,5 @@ Day5::Part2Type Day5::solvePartTwo()
 
     return solve(seedRanges);
 }
+
+} //namespace d5

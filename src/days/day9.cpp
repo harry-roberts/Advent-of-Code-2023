@@ -6,6 +6,9 @@
 
 #include <numeric>
 
+namespace d9
+{
+
 Day9::Day9(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -92,3 +95,5 @@ Day9::Part2Type Day9::solvePartTwo()
     }
     return totalSumOfFirstNums;
 }
+
+} //namespace d9

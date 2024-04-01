@@ -5,6 +5,9 @@
 
 #include <numeric>
 
+namespace d12
+{
+
 Day12::Day12(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -181,3 +184,5 @@ Day12::Part2Type Day12::solvePartTwo()
 
     return ans;
 }
+
+} //namespace d12

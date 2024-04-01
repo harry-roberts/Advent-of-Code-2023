@@ -5,6 +5,9 @@
 
 #include <map>
 
+namespace d3
+{
+
 using Coordinate = std::pair<int, int>;
 
 class Day3 : public DayBaseImpl<>
@@ -21,5 +24,7 @@ private:
     std::map<Coordinate, int> m_partNumbers;
     std::map<Coordinate, std::vector<int>> m_gearsToNumbers;
 };
+
+} //namespace d3
 
 #endif

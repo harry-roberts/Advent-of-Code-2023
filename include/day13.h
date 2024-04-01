@@ -3,6 +3,9 @@
 
 #include "day_base.h"
 
+namespace d13
+{
+
 class Day13 : public DayBaseImpl<>
 {
 public:
@@ -21,5 +24,7 @@ private:
     using Pattern = std::vector<std::string>;
     std::vector<Pattern> m_patterns;
 };
+
+} //namespace d13
 
 #endif

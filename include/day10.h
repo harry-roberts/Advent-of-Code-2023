@@ -5,6 +5,9 @@
 
 #include <unordered_map>
 
+namespace d10
+{
+
 enum class Direction
 {
     UP,
@@ -55,5 +58,7 @@ private:
     // make a copy of the input but only add the chars that make up the loop
     std::vector<std::string> m_inputCopy;
 };
+
+} //namespace d10
 
 #endif

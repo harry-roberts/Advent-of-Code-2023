@@ -3,6 +3,9 @@
 
 #include "day_base.h"
 
+namespace d4
+{
+
 class Day4 : public DayBaseImpl<>
 {
 public:
@@ -16,5 +19,7 @@ private:
 
     std::vector<int> m_lineMatches;
 };
+
+} //namespace d4
 
 #endif

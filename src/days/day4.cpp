@@ -5,6 +5,9 @@
 
 #include <unordered_set>
 
+namespace d4
+{
+
 Day4::Day4(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -71,3 +74,5 @@ Day4::Part2Type Day4::solvePartTwo()
 
     return totalNumberOfCards;
 }
+
+} //namespace d4

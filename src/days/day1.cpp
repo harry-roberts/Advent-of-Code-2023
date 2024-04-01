@@ -1,5 +1,8 @@
 #include "day1.h"
 
+namespace d1
+{
+
 Day1::Day1(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -84,3 +87,5 @@ Day1::Part1Type Day1::solve(bool includeWords)
 
     return total;
 }
+
+} //namespace d1

@@ -6,6 +6,9 @@
 #include <unordered_map>
 #include <boost/container_hash/hash.hpp>
 
+namespace d14
+{
+
 class Day14 : public DayBaseImpl<>
 {
 public:
@@ -43,6 +46,6 @@ private:
     size_t m_rowSize = 0;
 };
 
-
+} //namespace d14
 
 #endif

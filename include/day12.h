@@ -5,6 +5,9 @@
 
 #include <memory>
 
+namespace d12
+{
+
 struct DfaNode;
 using DfaNodePtr = std::shared_ptr<DfaNode>;
 
@@ -42,5 +45,7 @@ private:
     // turn each input line into a pair of records and groups
     std::vector<std::pair<std::string_view, std::vector<size_t>>> m_parsedInput;
 };
+
+} //namespace d12
 
 #endif

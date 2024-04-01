@@ -1,5 +1,8 @@
 #include "day14.h"
 
+namespace d14
+{
+
 Day14::Day14(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -223,3 +226,5 @@ Day14::Part2Type Day14::solvePartTwo()
     
     return calculateNorthLoad();
 }
+
+} //namespace d14

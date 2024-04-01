@@ -3,6 +3,9 @@
 
 #include "day_base.h"
 
+namespace d9
+{
+
 class Day9 : public DayBaseImpl<>
 {
 public:
@@ -16,5 +19,7 @@ private:
 
     std::vector<std::vector<int>> m_firstNumsVec;
 };
+
+} //namespace d9
 
 #endif

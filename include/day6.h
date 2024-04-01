@@ -5,6 +5,9 @@
 
 #include <map>
 
+namespace d6
+{
+
 class Day6 : public DayBaseImpl<>
 {
 public:
@@ -23,5 +26,7 @@ private:
     // time and distance for a race
     std::vector<std::pair<uint64_t, uint64_t>> m_races;
 };
+
+} //namespace d6
 
 #endif

@@ -6,6 +6,9 @@
 #include <unordered_map>
 #include <memory>
 
+namespace d8
+{
+
 struct Node
 {
     std::string name;
@@ -39,5 +42,7 @@ private:
     // maps a node name to its node ptr
     std::unordered_map<std::string, std::shared_ptr<Node>> m_nodeMap;
 };
+
+} //namespace d8
 
 #endif

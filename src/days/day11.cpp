@@ -3,6 +3,9 @@
 #include <set>
 #include <cassert>
 
+namespace d11
+{
+
 Day11::Day11(const std::string& filename, bool print)
 {
     readInputToStringVec(filename, print);
@@ -95,3 +98,5 @@ Day11::Part2Type Day11::solvePartTwo()
     // empty rows/cols are 1000000x as big
     return calculateSumMinDistances(1000000);
 }
+
+} //namespace d11

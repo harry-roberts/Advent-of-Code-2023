@@ -3,6 +3,9 @@
 
 #include "day_base.h"
 
+namespace d1
+{
+
 class Day1 : public DayBaseImpl<>
 {
 public:
@@ -17,5 +20,7 @@ private:
     const std::vector<std::string> digitWords{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
 
 };
+
+} //namespace d1
 
 #endif

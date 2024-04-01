@@ -5,6 +5,9 @@
 
 #include <map>
 
+namespace d5
+{
+
 using NumType = uint64_t;
 
 // the data from the input lines
@@ -42,5 +45,7 @@ private:
     std::vector<NumType> m_seedNums;
     Inputs m_inputs;
 };
+
+} //namespace d5
 
 #endif

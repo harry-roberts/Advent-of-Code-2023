@@ -141,16 +141,27 @@ static void BM_Day11(benchmark::State& state)
 }
 BENCHMARK(BM_Day11);
 
-static void BM_Day12(benchmark::State& state)
+static void BM_Day12_1Thread(benchmark::State& state)
 {
     for (auto _ : state)
     {
-        d12::Day12 day12("../src/inputs/input_day12.txt", false);
+        d12::Day12 day12("../src/inputs/input_day12.txt", 1, false);
         day12.solveDay();
         day12.verify(7916, 37366887898686);
     }
 }
-BENCHMARK(BM_Day12);
+static void BM_Day12_8Thread(benchmark::State& state)
+{
+    for (auto _ : state)
+    {
+        d12::Day12 day12("../src/inputs/input_day12.txt", 8, false);
+        day12.solveDay();
+        day12.verify(7916, 37366887898686);
+    }
+}
+// day 12 uses multithreading, use the real time for iteration calculations
+BENCHMARK(BM_Day12_1Thread)->UseRealTime();
+BENCHMARK(BM_Day12_8Thread)->UseRealTime();
 
 static void BM_Day13(benchmark::State& state)
 {

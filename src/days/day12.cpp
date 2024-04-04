@@ -1,26 +1,31 @@
 #include "day12.h"
 
-#include <boost/algorithm/string.hpp>
 #include <boost/tokenizer.hpp>
 
 #include <numeric>
+#include <thread>
 
 namespace d12
 {
 
-Day12::Day12(const std::string& filename, bool print)
+Day12::Day12(const std::string& filename, int numThreads, bool print) :
+    m_numThreads(numThreads)
 {
     readInputToStringVec(filename, print);
 }
 
 // define a DFA that validates an input against the defined groups
-// each node has a defined action for an input of a dot or a hash
-// if undefined for a given input at a node, the head is invalid and ends
-// if defined, move any head at that node to the node it points to (can be itself)
+//
+// each node has 3 possible movements it can make based on an input:
+//    - a dot can link back to itself
+//    - a dot can advance to the next node
+//    - a hash can advance to the next node
+// if an input doesn't have one of these movements to do, then the head ends
+//
 // for e.g. groups of 1,2 the chain looks like:
 //
-//    ). = dot linking to same node
-//    |./# = advancement path for that input
+//    ). = dot linking to itself
+//    |./# = advancement to next node for that input
 //    [node] = a node that any number of heads can be sitting at
 //
 //   start  [node] ).   dot links to itself at start
@@ -37,7 +42,7 @@ Day12::Day12(const std::string& filename, bool print)
 // each node has a counter of how many heads are currently there
 // start with 1 head at the start node
 // move as required for each character in the record
-// for a '?', split the head into 2, one for '.' and one for '#'
+// for a '?', split the head into 2 and follow as if both '.' and '#' had arrived
 // this creates more heads as the record inputs are given to the chain
 // heads are removed when they have no input action at their node
 // after all record inputs have been given, check how many heads are at the end node
@@ -52,35 +57,35 @@ DfaChain::DfaChain(const std::vector<size_t>& groups)
     size_t numNodes = std::reduce(groups.begin(), groups.end()) + groups.size();
     m_dfaChain.reserve(numNodes);
     for (size_t i = 0; i < numNodes; i++)
-        m_dfaChain.push_back(std::make_shared<DfaNode>());
+        m_dfaChain.push_back(DfaNode{});
     
     // move through the chain
     size_t chainPos = 0;
     for (const auto groupSize : groups)
     {
         // for first in group a dot goes to itself, there can be any number of dots before any group
-        m_dfaChain[chainPos]->inputDot = m_dfaChain[chainPos]; 
+        m_dfaChain[chainPos].movements[(uint8_t)Movements::DotLoops] = true;
         // each group is then a subchain of hashes, with a dot at the end (unless the final hash)
         for (size_t i = 0; i < groupSize; i++)
         {
-            m_dfaChain[chainPos]->inputHash = m_dfaChain[chainPos+1]; // dot remains nullptr
+            m_dfaChain[chainPos].movements[(uint8_t)Movements::HashAdvance] = true;
             chainPos++;
         }
         if (chainPos != numNodes-1) // if not the final node
         {
             // require a dot moving forward
             // not needed at end as the final node links to itself for optional dots
-            m_dfaChain[chainPos]->inputDot = m_dfaChain[chainPos+1];
+            m_dfaChain[chainPos].movements[(uint8_t)Movements::DotAdvance] = true;
             chainPos++;
         }
     }
     // link the final node to itself by dot, there can be any number of dots after the final group
-    m_dfaChain[chainPos]->inputDot = m_dfaChain[chainPos];
+    m_dfaChain[chainPos].movements[(uint8_t)Movements::DotLoops] = true;
 }
 
 uint64_t DfaChain::solve(std::string_view records)
 {
-    m_dfaChain[0]->headsHere = 1; // starting point
+    m_dfaChain[0].headsHere = 1; // starting point
 
     size_t maxNodePos = 0;
 
@@ -91,18 +96,20 @@ uint64_t DfaChain::solve(std::string_view records)
         // so only check up to our max possible current node pos to save some iterations
         for (size_t i = 0; i <= maxNodePos; i++)
         {
-            if (m_dfaChain[i]->headsHere > 0)
+            if (m_dfaChain[i].headsHere > 0)
             {
                 // a question mark should trigger both options
                 if (c == '.' || c == '?')
                 {
-                    if (m_dfaChain[i]->inputDot != nullptr)
-                        m_dfaChain[i]->inputDot->incoming += m_dfaChain[i]->headsHere;
+                    if (m_dfaChain[i].movements[(uint8_t)Movements::DotAdvance])
+                        m_dfaChain[i+1].incoming += m_dfaChain[i].headsHere;
+                    else if (m_dfaChain[i].movements[(uint8_t)Movements::DotLoops])
+                        m_dfaChain[i].incoming += m_dfaChain[i].headsHere;
                 }
                 if (c == '#' || c == '?')
                 {
-                    if (m_dfaChain[i]->inputHash != nullptr)
-                        m_dfaChain[i]->inputHash->incoming += m_dfaChain[i]->headsHere;
+                    if (m_dfaChain[i].movements[(uint8_t)Movements::HashAdvance])
+                        m_dfaChain[i+1].incoming += m_dfaChain[i].headsHere;
                 }
             }
         }
@@ -110,14 +117,14 @@ uint64_t DfaChain::solve(std::string_view records)
         // can also use maxNodePos here, checking 1 ahead, but limited to chain size
         for (size_t i = 0; i <= std::min(maxNodePos+1, m_dfaChain.size()-1); i++)
         {
-            m_dfaChain[i]->headsHere = m_dfaChain[i]->incoming;
-            m_dfaChain[i]->incoming = 0;
+            m_dfaChain[i].headsHere = m_dfaChain[i].incoming;
+            m_dfaChain[i].incoming = 0;
         }
         if (maxNodePos < m_dfaChain.size()-1) 
             maxNodePos++; // if not already at final pos, increment max node pos
     }
 
-    return m_dfaChain.back()->headsHere; // all heads at the end node
+    return m_dfaChain.back().headsHere; // all heads at the end node
 }
 
 void Day12::parseInput()
@@ -143,6 +150,45 @@ void Day12::parseInput()
     }
 }
 
+// a thread can run this function and pick up new inputs to solve
+void Day12::runPartTwo()
+{
+    std::pair<std::string_view, std::vector<size_t>> input;
+    uint64_t ans = 0;
+
+    while (true)
+    {
+        // lock the mutex and get the next input
+        // but first add previously calculated ans to save an extra mutex acquisition
+        {
+            const std::lock_guard<std::mutex> lock(m_inputMutex);
+            m_answer += ans;
+            if (m_nextInput == m_parsedInput.size()) break;
+            input = m_parsedInput[m_nextInput];
+            m_nextInput++;
+        }
+        // we have a copy of the input, free the mutex and solve it
+
+        std::string newRecords{input.first};
+        newRecords.reserve((input.first.size()*5) + 4);
+        for (size_t i = 0; i < 4; i++)
+        {
+            newRecords += "?";
+            newRecords += input.first;
+        }
+
+        size_t sz = input.second.size();
+        input.second.reserve(sz*5);
+
+        for (size_t i = 0; i < 4; i++) // add the group to itself 4 more times
+            std::copy_n(input.second.begin(), sz, std::back_inserter(input.second));
+
+        DfaChain dfa(input.second);
+        ans = dfa.solve(newRecords);
+        // ans will be added when we next get the lock
+    }
+}
+
 Day12::Part1Type Day12::solvePartOne()
 {
     parseInput();
@@ -159,30 +205,18 @@ Day12::Part1Type Day12::solvePartOne()
 
 Day12::Part2Type Day12::solvePartTwo()
 {
-    uint64_t ans = 0;
+    m_answer = 0;
 
-    for (auto& input : m_parsedInput)
-    {
-        std::string newRecords{input.first};
-        newRecords.reserve((input.first.size()*5) + 4);
-        for (size_t i = 0; i < 4; i++)
-        {
-            newRecords += "?";
-            newRecords += input.first;
-        }
+    { // thread scope
+        std::vector<std::jthread> threads;
+        threads.reserve(m_numThreads);
 
-        size_t sz = input.second.size();
-        input.second.reserve(sz*5);
-
-        for (size_t i = 0; i < 4; i++) // add the group to itself 4 more times
-            std::copy_n(input.second.begin(), sz, std::back_inserter(input.second));
-
-        DfaChain dfa(input.second);
-
-        ans += dfa.solve(newRecords);
+        // start up threads, each running runPartTwo
+        for (int i = 0; i < m_numThreads; ++i) 
+            threads.push_back(std::jthread(&Day12::runPartTwo, this));
     }
 
-    return ans;
+    return m_answer;
 }
 
 } //namespace d12

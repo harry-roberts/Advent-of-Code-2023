@@ -32,7 +32,7 @@ AdventOfCode::AdventOfCode()
     m_allDays.push_back(std::make_unique<d9::Day9>("inputs/input_day9.txt"));
     m_allDays.push_back(std::make_unique<d10::Day10>("inputs/input_day10.txt"));
     m_allDays.push_back(std::make_unique<d11::Day11>("inputs/input_day11.txt"));
-    m_allDays.push_back(std::make_unique<d12::Day12>("inputs/input_day12.txt"));
+    m_allDays.push_back(std::make_unique<d12::Day12>("inputs/input_day12.txt", 8)); // 8 threads
     m_allDays.push_back(std::make_unique<d13::Day13>("inputs/input_day13.txt"));
     m_allDays.push_back(std::make_unique<d14::Day14>("inputs/input_day14.txt"));
     m_allDays.push_back(std::make_unique<d15::Day15>("inputs/input_day15.txt"));

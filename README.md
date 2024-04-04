@@ -5,30 +5,31 @@ These are my solutions for Advent of Code 2023. Each day implements a templated 
 A Google Benchmark program is included to performance test each individual day. The results for my inputs are:
 ```
 Running ../build/benchmark.out
-Run on (12 X 3600.01 MHz CPU s)
+Run on (12 X 3600 MHz CPU s)
 CPU Caches:
   L1 Data 32 KiB (x6)
   L1 Instruction 32 KiB (x6)
   L2 Unified 512 KiB (x6)
   L3 Unified 16384 KiB (x1)
-Load Average: 0.74, 0.52, 0.31
+Load Average: 0.66, 0.47, 0.42
 -----------------------------------------------------
-Benchmark           Time             CPU   Iterations
+Benchmark                           Time   Iterations
 -----------------------------------------------------
-BM_Day1           321 us          321 us         2145
-BM_Day2           381 us          381 us         1742
-BM_Day3           318 us          318 us         2127
-BM_Day4           461 us          461 us         1498
-BM_Day5           129 us          129 us         5327
-BM_Day6          4.08 us         4.07 us       138139
-BM_Day7           499 us          499 us         1385
-BM_Day8           522 us          522 us         1341
-BM_Day9           325 us          325 us         2175
-BM_Day10          249 us          249 us         2828
-BM_Day11          326 us          326 us         2160
-BM_Day12        13675 us        13675 us           51
-BM_Day13          240 us          240 us         2903
-BM_Day14        33807 us        33807 us           20
-BM_Day15          383 us          383 us         1797
-BM_Day16        20392 us        20392 us           35
+BM_Day1                           320 us         2211
+BM_Day2                           389 us         1738
+BM_Day3                           337 us         2137
+BM_Day4                           423 us         1656
+BM_Day5                           129 us         5148
+BM_Day6                          4.03 us       174183
+BM_Day7                           511 us         1347
+BM_Day8                           520 us         1000
+BM_Day9                           311 us         2233
+BM_Day10                          247 us         2861
+BM_Day11                          326 us         2024
+BM_Day12_1Thread/real_time       8537 us           83
+BM_Day12_8Thread/real_time       2627 us          256
+BM_Day13                          219 us         3203
+BM_Day14                        33140 us           21
+BM_Day15                          369 us         1851
+BM_Day16                        20339 us           35
 ```

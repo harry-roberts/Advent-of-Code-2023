@@ -1,7 +1,5 @@
 #include "day16.h"
 
-#include <queue>
-
 namespace d16
 {
 
@@ -10,34 +8,50 @@ Day16::Day16(const std::string& filename, bool print)
     readInputToStringVec(filename, print);
 }
 
+Direction Tile::getDirFromMap(Direction input)
+{
+    switch (input)
+    {
+        case Direction::UP:
+            return static_cast<Direction>( (pathMap >> UpMapShift) & mask);
+        case Direction::DOWN:
+            return static_cast<Direction>( (pathMap >> DownMapShift) & mask);
+        case Direction::LEFT:
+            return static_cast<Direction>( (pathMap >> LeftMapShift) & mask);
+        case Direction::RIGHT:
+        default:
+            return static_cast<Direction>( (pathMap >> RightMapShift) & mask);
+    }
+}
+
+void Tile::setPathMap(char c)
+{
+    if (c == '.') pathMap = DotMap;
+    else if (c == '/') pathMap = ForwardSlashMap;
+    else if (c == '\\') pathMap = BackSlashMap;
+    else if (c == '-') pathMap = HyphenMap;
+    else if (c == '|') pathMap = PipeMap; 
+}
+
+bool Tile::hasSeenInput(Direction input)
+{
+    return static_cast<bool>(seenInputs & static_cast<int>(input));
+}
+bool Tile::seenInputsEmpty()
+{
+    return seenInputs == 0;
+}
+void Tile::addInput(Direction input)
+{
+    seenInputs |= static_cast<int>(input);
+}
+void Tile::resetSeenInputs()
+{
+    seenInputs = 0;
+}
+
 void Day16::readInputToTiles()
 {
-    m_ForwardSlashMirrorTileMap = std::make_shared<TilePathMap>(tpm_il{ // '/'
-        {Direction::RIGHT, {Direction::UP, {}}},
-        {Direction::DOWN, {Direction::LEFT, {}}},
-        {Direction::LEFT, {Direction::DOWN, {}}},
-        {Direction::UP, {Direction::RIGHT, {}}}});
-    m_BackwardSlashMirrorTileMap = std::make_shared<TilePathMap>(tpm_il{ // '\'
-        {Direction::RIGHT, {Direction::DOWN, {}}},
-        {Direction::DOWN, {Direction::RIGHT, {}}},
-        {Direction::LEFT, {Direction::UP, {}}},
-        {Direction::UP, {Direction::LEFT, {}}}});
-    m_HyphenSplitterTileMap = std::make_shared<TilePathMap>(tpm_il{ // '-'
-        {Direction::RIGHT, {Direction::RIGHT, {}}},
-        {Direction::DOWN, {Direction::RIGHT, {Direction::LEFT}}},
-        {Direction::LEFT, {Direction::LEFT, {}}},
-        {Direction::UP, {Direction::RIGHT, {Direction::LEFT}}}});
-    m_PipeSplitterTileMap = std::make_shared<TilePathMap>(tpm_il{ // '|'
-        {Direction::RIGHT, {Direction::UP, {Direction::DOWN}}},
-        {Direction::DOWN, {Direction::DOWN, {}}},
-        {Direction::LEFT, {Direction::UP, {Direction::DOWN}}},
-        {Direction::UP, {Direction::UP, {}}}});
-    m_DotTileMap = std::make_shared<TilePathMap>(tpm_il{ // '.'
-        {Direction::RIGHT, {Direction::RIGHT, {}}},
-        {Direction::DOWN, {Direction::DOWN, {}}},
-        {Direction::LEFT, {Direction::LEFT, {}}},
-        {Direction::UP, {Direction::UP, {}}}});
-
     m_tiles.reserve(m_inputLines.size());
     for (size_t y = 0; y < m_inputLines.size(); y++)
     {
@@ -45,11 +59,7 @@ void Day16::readInputToTiles()
         for (size_t x = 0; x < m_inputLines[y].size(); x++)
         {
             auto c = m_inputLines[y][x];
-            if (c == '/') m_tiles[y][x].pathMap = m_ForwardSlashMirrorTileMap;
-            else if (c == '\\') m_tiles[y][x].pathMap = m_BackwardSlashMirrorTileMap;
-            else if (c == '-') m_tiles[y][x].pathMap = m_HyphenSplitterTileMap;
-            else if (c == '|') m_tiles[y][x].pathMap = m_PipeSplitterTileMap;
-            else if (c == '.') m_tiles[y][x].pathMap = m_DotTileMap;
+            m_tiles[y][x].setPathMap(c);
         }
     }
 
@@ -69,57 +79,79 @@ void Day16::resetSeenDirections()
 {
     for (auto& row : m_tiles)
         for (auto& tile : row)
-            tile.seenInputs.reset();
+            tile.resetSeenInputs();
 }
 
 int Day16::getEnergisedTiles(Beam& inputBeam)
 {
-    // as new beams are generated add them to a queue to be calculated afterwards
-    // a beam will be fully counted before moving onto a new one
-    std::queue<Beam> beams;
-    beams.push(inputBeam);
     int energised = 0;
     
-    while (!beams.empty())
+    while(true)
     {
-        auto beam = beams.front();
-        beams.pop();
-        while(true)
+        // current position of this beam
+        auto& pos = inputBeam.first;
+        // current direction the beam is going
+        auto& beamDir = inputBeam.second;
+        // the tile the beam is now interacting with
+        auto& tile = m_tiles[pos.second][pos.first];
+
+        if (tile.hasSeenInput(beamDir))
+            break;
+
+        // this tile hasn't seen this input before, add it to the seen inputs
+        // add to energised count only if it is this tile's first
+        if (tile.seenInputsEmpty())
+            energised++;
+        
+        tile.addInput(beamDir);
+
+        // the output direction(s) that the beam should follow
+        auto tileMapBeamDir = tile.getDirFromMap(beamDir);
+
+        auto dir1 = tileMapBeamDir;
+        auto dir2 = Direction::VOID;
+        if (tileMapBeamDir == Direction::LEFTRIGHT) 
         {
-            // current position of this beam
-            auto& pos = beam.first;
-            // current direction the beam is going
-            auto& beamDir = beam.second;
-            // the tile the beam is now interacting with
-            auto& tile = m_tiles[pos.second][pos.first];
-            // the output direction(s) that the beam should follow
-            auto& tileMapBeamDir = (*(tile.pathMap.get()))[beamDir];
+            dir1 = Direction::LEFT;
+            dir2 = Direction::RIGHT;
+        }
+        else if (tileMapBeamDir == Direction::UPDOWN) 
+        {
+            dir1 = Direction::UP;
+            dir2 = Direction::DOWN;
+        }
 
-            if (tile.seenInputs[(int)beamDir])
+        // if there is a second direction, generate new beam in that direction
+        if (dir2 != Direction::VOID && 
+            !directionHeadsOutsideLayout(dir2, pos))
+        {
+            // recursively call this function again with the split beam
+            Beam newBeam{{pos.first, pos.second}, dir2};
+            energised += getEnergisedTiles(newBeam);
+        }
+
+        // if the tile is telling us to leave the layout, break out this loop
+        if (directionHeadsOutsideLayout(dir1, pos))
+            break;
+        // otherwise we can update the beam's position and direction as per the tile's definition
+        beamDir = dir1;
+
+        switch (beamDir)
+        {
+            case Direction::DOWN:
+                pos.second++;
                 break;
-
-            // this tile hasn't seen this input before, add it to the seen inputs
-            // add to energised count only if it is this tile's first
-            if (tile.seenInputs.none())
-                energised++;
-            tile.seenInputs[(int)beamDir].flip();
-
-            // if there is a second direction, generate new beam in that direction
-            if (tileMapBeamDir.second != std::nullopt && 
-                !directionHeadsOutsideLayout(tileMapBeamDir.second.value(), pos))
-            {
-                beams.push(Beam{{pos.first, pos.second}, tileMapBeamDir.second.value()});
-            }
-
-            // if the tile is telling us to leave the layout, break out this loop
-            if (directionHeadsOutsideLayout(tileMapBeamDir.first, pos))
+            case Direction::UP:
+                pos.second--;
                 break;
-            // otherwise we can update the beam's position and direction as per the tile's definition
-            beamDir = tileMapBeamDir.first;
-            if (beamDir == Direction::DOWN) pos.second++;
-            else if (beamDir == Direction::UP) pos.second--;
-            else if (beamDir == Direction::RIGHT) pos.first++;
-            else if (beamDir == Direction::LEFT) pos.first--;
+            case Direction::RIGHT:
+                pos.first++;
+                break;
+            case Direction::LEFT:
+                pos.first--;
+                break;
+            default:
+                break;
         }
     }
 
